@@ -11,7 +11,7 @@ pipeline
         stage('Checkout') 
         {
             steps {
-               checkout scmGit(branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Aishu937/ansiblerepo.git']])
+               checkout scmGit(branches: [[name: '*/master']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Aishu937/ansiblerepo.git']])
             }
         }
         stage('Ansible Playbook Execution') 
