@@ -6,7 +6,7 @@ pipeline {
         stage('Checkout') {
             steps {
                 checkout scmGit(
-                    branches: [[name: '*/master']],
+                    branches: [[name: '*/main']],
                     extensions: [],
                     userRemoteConfigs: [[url: 'https://github.com/Aishu937/ansiblerepo.git']]
                 )
