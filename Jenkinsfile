@@ -12,7 +12,7 @@ pipeline {
         }
         stage('Ansible Playbook Execution') {
             steps {
-                sh 'ansible-playbook  $WORKSPACE/tasks/nginx_jenkins_installation.yml'
+                sh 'ansible-playbook  $WORKSPACE/master.yml'
             }
         }
     }
