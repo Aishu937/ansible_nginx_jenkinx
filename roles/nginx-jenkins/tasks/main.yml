@@ -62,7 +62,11 @@
     loop:
       - nginx
       - jenkins
-      
+  - name: Create Nginx configuration file for Jenkins
+      file:
+        path: /etc/nginx/conf.d/jenkins.conf
+        state: touch
+        
   - name: Configure Nginx as reverse proxy for Jenkins
     blockinfile:
       path: /etc/nginx/conf.d/jenkins.conf
