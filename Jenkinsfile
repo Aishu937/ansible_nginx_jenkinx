@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label 'masternodes'
+        label 'ansiblededicated'
     }
     stages {
         stage('Checkout') {
