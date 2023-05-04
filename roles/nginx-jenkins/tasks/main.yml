@@ -102,7 +102,7 @@
               }
           }
     notify: wait for nginx
-    - name: Reboot the system
+  - name: Reboot the system
       become: true
       reboot:
         reboot_timeout: 3600
