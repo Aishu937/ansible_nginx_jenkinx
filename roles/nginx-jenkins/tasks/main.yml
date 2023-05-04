@@ -69,11 +69,11 @@
       block: |
         server {
             listen 80;
-            server_name target1@192.168.1.31;
+            server_name 192.168.1.31:8080;
             access_log /var/log/nginx/jenkins.access.log;
 
             location / {
-                proxy_pass http://localhost:8080;
+                proxy_pass http://jenkins;
                 proxy_set_header Host $host;
                 proxy_set_header X-Real-IP $remote_addr;
                 proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
