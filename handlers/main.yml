@@ -1,6 +1,0 @@
----
-# handlers file for nginx-jenkins-installation
- - name: Restart Nginx
-   service:
-     name: nginx
-     state: restarted
