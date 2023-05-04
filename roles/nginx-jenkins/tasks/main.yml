@@ -64,37 +64,37 @@
       - jenkins
       
   - name: Configure Nginx as reverse proxy for Jenkins
-      blockinfile:
-        path: /etc/nginx/conf.d/jenkins.conf
-        block: |
-          server {
-              listen 80;
-              server_name 192.168.1.31;
-              access_log /var/log/nginx/jenkins.access.log;
+    blockinfile:
+      path: /etc/nginx/conf.d/jenkins.conf
+      block: |
+        server {
+            listen 80;
+            server_name 192.168.1.31;
+            access_log /var/log/nginx/jenkins.access.log;
 
-              location / {
-                  proxy_pass http://localhost:8080;
-                  proxy_set_header Host $host;
-                  proxy_set_header X-Real-IP $remote_addr;
-                  proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                  proxy_set_header X-Forwarded-Proto $scheme;
+            location / {
+                proxy_pass http://localhost:8080;
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
               }
 
-              location /userContent {
-                  root /var/lib/jenkins/;
-                  if ($query_string) {
-                      expires max;
+            location /userContent {
+                root /var/lib/jenkins/;
+                if ($query_string) {
+                    expires max;
                   }
               }
 
-              error_page 404 /404.html;
-                  location = /404.html {
-                  internal;
+            error_page 404 /404.html;
+                location = /404.html {
+                internal;
               }
 
-              error_page 500 502 503 504 /50x.html;
-                  location = /50x.html {
-                  internal;
+            error_page 500 502 503 504 /50x.html;
+               location = /50x.html {
+               internal;
               }
           }
-      notify: restart nginx
+     notify: restart nginx
