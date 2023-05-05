@@ -88,4 +88,9 @@
               proxy_set_header X-Forwarded-Proto $scheme;
           }
       }
+- name: Reboot the system
+  become: true
+  reboot:
+    reboot_timeout: 3600
+    msg: "Reboot initiated by Ansible"
   
