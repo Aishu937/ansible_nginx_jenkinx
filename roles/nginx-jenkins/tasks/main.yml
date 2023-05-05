@@ -5,7 +5,7 @@
       state: present
     when: ansible_os_family == "Debian"
 
-  - name: install nginx on CentOS
+  - name: Install Nginx on CentOS
     yum:
       name: nginx
       state: present
@@ -19,36 +19,36 @@
     shell: echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] https://pkg.jenkins.io/debian-stable binary/ | sudo tee /etc/apt/sources.list.d/jenkins.list > /dev/null
     when: ansible_os_family == "Debian"
 
-  - name: Install openjdk on ubuntu
+  - name: Install OpenJDK on Ubuntu
     apt:
       name: openjdk-11-jdk
       state: present
     when: ansible_os_family == "Debian"
 
-  - name: Install jdk on centos
+  - name: Install OpenJDK on CentOS
     yum:
       name: openjdk-11-jdk
       state: present
     when: ansible_os_family == "CentOS"
 
-  - name: Update apt package cache on ubuntu
+  - name: Update apt package cache on Ubuntu
     apt:
       update_cache: yes
     when: ansible_os_family == "Debian"
 
-  - name: update packages cache on centos
+  - name: Update package cache on CentOS
     yum:
       update_cache: yes
     when: ansible_os_family == "CentOS"
 
-  - name: install jenkins on ubuntu
+  - name: Install Jenkins on Ubuntu
     apt:
       name: jenkins
       state: present
     when: ansible_os_family == "Debian"
     notify: Restart Nginx
 
-  - name: Install jenkins on CentOS
+  - name: Install Jenkins on CentOS
     yum:
       name: jenkins
       state: present
@@ -62,36 +62,33 @@
     loop:
       - nginx
       - jenkins
+
   - name: Create Nginx configuration file for Jenkins
+    become: true
     file:
       path: /etc/nginx/conf.d/jenkins.conf
       state: touch
 
+  - name: Configure Nginx as reverse proxy for Jenkins
+    blockinfile:
+      path: /etc/nginx/conf.d/jenkins.conf
+      block: |
+        server {
+            listen 80;
+            server_name {{ jenkins_server_name }};
+            access_log /var/log/nginx/jenkins.access.log;
 
- 
+            location / {
+                proxy_pass http://{{ jenkins_server_name }}:{{ jenkins_http_port }};
+                proxy_set_header Host $host;
+                proxy_set_header X-Real-IP $remote_addr;
+                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+                proxy_set_header X-Forwarded-Proto $scheme;
+            }
+        }
 
-- name: Configure Nginx as reverse proxy for Jenkins
-  blockinfile:
-    path: /etc/nginx/conf.d/jenkins.conf
-    block: |
-      server {
-          listen 80;
-          server_name {{ jenkins_server_name }};
-          access_log /var/log/nginx/jenkins.access.log;
-
- 
-
-          location / {
-              proxy_pass http://{{ jenkins_server_name }}:{{ jenkins_http_port }};
-              proxy_set_header Host $host;
-              proxy_set_header X-Real-IP $remote_addr;
-              proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-              proxy_set_header X-Forwarded-Proto $scheme;
-          }
-      }
-- name: Reboot the system
-  become: true
-  reboot:
-    reboot_timeout: 3600
-    msg: "Reboot initiated by Ansible"
-  
+  - name: Reboot the system
+    become: true
+    reboot:
+      reboot_timeout: 3600
+      msg: "Reboot initiated by Ansible"
