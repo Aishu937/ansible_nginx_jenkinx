@@ -74,7 +74,7 @@
   copy:
     src: /etc/ansible/jenkins.conf
     dest: /etc/nginx/conf.d/jenkins.conf
-    remote_src: yes
+    hosts: target_servers
     
   - name: Reboot the system
     become: true
