@@ -63,29 +63,13 @@
       - nginx
       - jenkins
 
-  - name: Create Nginx configuration file for Jenkins
-    become: true
-    file:
-      path: /etc/nginx/conf.d/jenkins.conf
-      state: touch
+  - name: Copy file to another location
+    copy:
+      src: /files/jenkins.config
+      dest: /etc/nginx/conf.d/
+      delegate_to: 192.168.1.31
+      
 
-  - name: Configure Nginx as reverse proxy for Jenkins
-    blockinfile:
-      path: /etc/nginx/conf.d/jenkins.conf
-      block: |
-        server {
-            listen 80;
-            server_name {{ jenkins_server_name }};
-            access_log /var/log/nginx/jenkins.access.log;
-
-            location / {
-                proxy_pass http://{{ jenkins_server_name }}:{{ jenkins_http_port }};
-                proxy_set_header Host $host;
-                proxy_set_header X-Real-IP $remote_addr;
-                proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-                proxy_set_header X-Forwarded-Proto $scheme;
-            }
-        }
 
   - name: Reboot the system
     become: true
