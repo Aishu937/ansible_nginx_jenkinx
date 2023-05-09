@@ -71,10 +71,10 @@
       mode: 0755
     
   - name: Copy file from source server to target server
-  copy:
-    src: /etc/ansible/jenkins.conf
-    dest: /etc/nginx/conf.d/jenkins.conf
-    hosts: target_servers
+    copy:
+      src: /etc/ansible/jenkins.conf
+      dest: /etc/nginx/conf.d/jenkins.conf
+      hosts: target_servers
     
   - name: Reboot the system
     become: true
