@@ -65,7 +65,7 @@
 
   - name: Copy file to another location
     copy:
-      src: /files/jenkins.config
+      src: https://github.com/Aishu937/ansible_nginx_jenkinx/blob/main/roles/nginx-jenkins/files/jenkins.conf
       dest: /etc/nginx/conf.d/
       delegate_to: 192.168.1.31
       
