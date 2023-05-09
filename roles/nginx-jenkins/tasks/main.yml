@@ -62,15 +62,20 @@
     loop:
       - nginx
       - jenkins
-
-  - name: Copy file to another location
-    copy:
-      src: /etc/ansible/jenkins.conf
-      dest: /etc/nginx/conf.d/
-      delegate_to: 192.168.1.31
-      
-
-
+  - name: Create a file on the target system with specific ownership and permissions
+  file:
+    path: /etc/nginx/conf.d/jenkins.conf
+    state: touch
+    owner: target1
+    group: target1
+    mode: 0755
+    
+  - name: Copy file from source server to target server
+  copy:
+    src: /etc/ansible/jenkins.conf
+    dest: /etc/nginx/conf.d/jenkins.conf
+    remote_src: yes
+    
   - name: Reboot the system
     become: true
     reboot:
