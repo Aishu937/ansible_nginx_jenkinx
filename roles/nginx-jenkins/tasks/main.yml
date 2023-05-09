@@ -63,12 +63,12 @@
       - nginx
       - jenkins
   - name: Create a file on the target system with specific ownership and permissions
-  file:
-    path: /etc/nginx/conf.d/jenkins.conf
-    state: touch
-    owner: target1
-    group: target1
-    mode: 0755
+    file:
+      path: /etc/nginx/conf.d/jenkins.conf
+      state: touch
+      owner: target1
+      group: target1
+      mode: 0755
     
   - name: Copy file from source server to target server
   copy:
