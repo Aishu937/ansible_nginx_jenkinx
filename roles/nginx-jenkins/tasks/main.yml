@@ -72,7 +72,7 @@
     
   - name: Copy file from source server to target server
     copy:
-      src: $WORKSPACE/jenkins.conf
+      src: $WORKSPACE/roles/nginx-jenkins/files/jenkins.config
       dest: /etc/nginx/conf.d/jenkins.conf
      
   - name: Reboot the system
