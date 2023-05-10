@@ -72,7 +72,7 @@
     
   - name: Copy file from source server to target server
     copy:
-      src: /etc/ansible/jenkins.conf
+      src: $WORKSPACE/jenkins.conf
       dest: /etc/nginx/conf.d/jenkins.conf
      
   - name: Reboot the system
