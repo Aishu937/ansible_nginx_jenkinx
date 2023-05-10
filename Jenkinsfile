@@ -16,10 +16,10 @@ pipeline {
             }
         }
     }
-    post {
-        always {
+  //  post {
+    //    always {
             // Clean the workspace after the build
-            cleanWs()
-        }
-    }
+      //      cleanWs()
+        //}
+    //}
 }
